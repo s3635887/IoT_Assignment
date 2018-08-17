@@ -2,18 +2,21 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 import sqlite3
+import plotly.plotly as py
+import plotly.graph_objs as go 
+import datetime
+import pandas as pd
 dbname='assignment1.db'
-
-# Data for plotting
-t = np.arange(0.0, 2.0, 0.01)
-s = 1 + np.sin(2 * np.pi * t)
-
-fig, ax = plt.subplots()
-ax.plot(t, s)
-
-ax.set(xlabel='time (s)', ylabel='voltage (mV)',
-       title='About as simple as it gets, folks')
-ax.grid()
-
-fig.savefig("test.png")
+conn = sqlite3.connect(dbname)
+query = "select * from ass1_data limit 100"
+pf = pd.read_sql_query(query,conn)
+print(pf.timestamp)
+print(pf.temperature)
+plt.plot(pf.timestamp, pf.temperature)
 plt.show()
+#c = curs.fetchall()
+
+#data=[go.Scatter(
+#	x=pf.timestamp,
+#	y=pf.temperature)]
+#py.iplot(data)
